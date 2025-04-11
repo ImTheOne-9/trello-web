@@ -7,7 +7,8 @@ const theme = createTheme({
       palette: {
         primary: teal,
         secondary: deepOrange
-      }
+      },
+      spacing: (factor) => `${0.25 * factor}rem`
     },
     dark: {
       palette: {
@@ -21,7 +22,8 @@ const theme = createTheme({
           primary: '#fff',
           secondary: '#b3b3b3'
         }
-      }
+      },
+      spacing: (factor) => `${0.25 * factor}rem`
     }
   }
 })
