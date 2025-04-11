@@ -1,4 +1,4 @@
-import { Button } from '@mui/material'
+import { Button, Typography } from '@mui/material'
 import { AccessAlarm, ThreeDRotation } from '@mui/icons-material'
 import { pink } from '@mui/material/colors'
 import HomeIcon from '@mui/icons-material/Home' // default import
@@ -7,6 +7,7 @@ function App() {
   return (
     <>
       <div>dvh1910</div>
+      <Typography variant="body2" color="text.secondary">Rbody</Typography>
       <Button variant="text">Text</Button>
       <Button variant="contained">Contained</Button>
       <Button variant="outlined">Outlined</Button>
