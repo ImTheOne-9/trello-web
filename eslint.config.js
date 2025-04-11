@@ -21,6 +21,7 @@ export default [
       'react-refresh': reactRefresh
     },
     rules: {
+      //react
       ...js.configs.recommended.rules,
       ...reactHooks.configs.recommended.rules,
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
@@ -28,6 +29,14 @@ export default [
         'warn',
         { allowConstantExport: true }
       ],
+      //Mui
+      'no-restricted-imports': [
+        'error',
+        {
+          'patterns': ['@mui/*/*/*']
+        }
+      ],
+      //Common
       'no-console': 1,
       'no-lonely-if': 1,
       'no-trailing-spaces': 1,
