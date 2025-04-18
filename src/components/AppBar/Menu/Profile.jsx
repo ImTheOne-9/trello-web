@@ -17,7 +17,7 @@ const Profile = () => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
   return (
     <Box>
@@ -30,7 +30,7 @@ const Profile = () => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
         >
-          <Avatar sx={{ width: 32, height: 32 }}
+          <Avatar sx={{ width: 36, height: 36 }}
             alt='Image'
             src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGoz4yAOvONcl0w8zez5qIU-zOPcEbqsxjhw&s' />
         </IconButton>
