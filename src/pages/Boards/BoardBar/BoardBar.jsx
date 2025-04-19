@@ -35,7 +35,10 @@ const BoardBar = () => {
         gap: 2,
         bgcolor: (theme) => theme.palette.mode === 'dark'
           ? theme.applyStyles('dark', { backgroundColor: '#34495e' })
-          : theme.applyStyles('light', { backgroundColor: '#1976d2' })
+          : theme.applyStyles('light', { backgroundColor: '#1976d2' }),
+        overflowX: 'auto',
+        overflowY: 'hidden',
+        '&::-webkit-scrollbar-track': { m: 2 }
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Chip

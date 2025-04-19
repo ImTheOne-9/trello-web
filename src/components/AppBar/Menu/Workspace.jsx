@@ -19,7 +19,7 @@ const Workspace = () => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
   return (
     <Box>
@@ -40,7 +40,7 @@ const Workspace = () => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button-workspace',
+          'aria-labelledby': 'basic-button-workspace'
         }}
       >
         <MenuItem>

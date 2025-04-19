@@ -19,7 +19,7 @@ const Starred = () => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
   return (
     <Box>
@@ -40,7 +40,7 @@ const Starred = () => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button-starred',
+          'aria-labelledby': 'basic-button-starred'
         }}
       >
         <MenuItem>

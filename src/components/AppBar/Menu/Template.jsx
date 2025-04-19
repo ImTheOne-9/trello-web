@@ -19,7 +19,7 @@ const Template = () => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
   return (
     <Box>
@@ -40,7 +40,7 @@ const Template = () => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button-template',
+          'aria-labelledby': 'basic-button-template'
         }}
       >
         <MenuItem>
