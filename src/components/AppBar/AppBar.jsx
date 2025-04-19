@@ -1,29 +1,29 @@
-import React from 'react'
-import ModeSelect from '~/components/ModeSelect'
-import Box from '@mui/material/Box'
 import AppsIcon from '@mui/icons-material/Apps'
-import TrelloIcon from '~/assets/trello.svg?react'
+import CloseIcon from '@mui/icons-material/Close'
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
+import MenuIcon from '@mui/icons-material/Menu'
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
+import SearchIcon from '@mui/icons-material/Search'
+import { IconButton, useMediaQuery } from '@mui/material'
+import Badge from '@mui/material/Badge'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Drawer from '@mui/material/Drawer'
+import InputAdornment from '@mui/material/InputAdornment'
+import { useTheme } from '@mui/material/styles'
 import SvgIcon from '@mui/material/SvgIcon'
+import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import Workspace from './Menu/Workspace'
+import React from 'react'
+import TrelloIcon from '~/assets/trello.svg?react'
+import ModeSelect from '~/components/ModeSelect/ModeSelect'
+import Profile from './Menu/Profile'
 import Recent from './Menu/Recent'
 import Starred from './Menu/Starred'
 import Template from './Menu/Template'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Badge from '@mui/material/Badge'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
-import Tooltip from '@mui/material/Tooltip'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import Profile from './Menu/Profile'
-import { IconButton, useMediaQuery } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
-import { useTheme } from '@mui/material/styles'
-import SearchIcon from '@mui/icons-material/Search'
-import Drawer from '@mui/material/Drawer'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
-import InputAdornment from '@mui/material/InputAdornment'
-import CloseIcon from '@mui/icons-material/Close'
+import Workspace from './Menu/Workspace'
 const AppBar = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -65,7 +65,7 @@ const AppBar = () => {
               <Template />
               <Button
                 sx={{
-                  color: 'white',
+                  color: 'white'
                 }}
                 startIcon={<LibraryAddIcon />}
               >

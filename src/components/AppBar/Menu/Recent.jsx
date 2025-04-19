@@ -19,7 +19,7 @@ const Recent = () => {
     setAnchorEl(event.currentTarget)
   }
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(null)
   }
   return (
     <Box>
@@ -40,7 +40,7 @@ const Recent = () => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button-recent',
+          'aria-labelledby': 'basic-button-recent'
         }}
       >
         <MenuItem>
