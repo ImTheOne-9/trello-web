@@ -11,19 +11,20 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import { Tooltip } from '@mui/material'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-const BoardBar = () => {
-  const MENU_STYLES = {
-    color: 'white',
-    bgcolor: 'transparent',
-    border: 'none',
-    borderRadius: '4px',
-    '.MuiSvgIcon-root': {
-      color: 'white'
-    },
-    '&:hover': {
-      bgcolor: 'primary.50'
-    }
+import { capitalizeFirstLetter } from '~/utils/formatters'
+const MENU_STYLES = {
+  color: 'white',
+  bgcolor: 'transparent',
+  border: 'none',
+  borderRadius: '4px',
+  '.MuiSvgIcon-root': {
+    color: 'white'
+  },
+  '&:hover': {
+    bgcolor: 'primary.50'
   }
+}
+const BoardBar = ({ board }) => {
   return (
     <>
       <Box px={2} sx={{
@@ -44,12 +45,12 @@ const BoardBar = () => {
           <Chip
             sx={MENU_STYLES}
             icon={<DashboardIcon />}
-            label="DvhDev Mern Stack Board"
+            label={board?.title}
             clickable />
           <Chip
             sx={MENU_STYLES}
             icon={<VpnLockIcon />}
-            label="Public/Private Workspace"
+            label={capitalizeFirstLetter(board?.type)}
             clickable />
           <Chip
             sx={MENU_STYLES}
