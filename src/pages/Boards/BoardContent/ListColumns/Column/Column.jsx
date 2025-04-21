@@ -18,7 +18,20 @@ import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
 import ListCards from './ListCards/ListCards'
 import { mapOrder } from '~/utils/sorts'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 const Column = ({ column }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: column._id,
+    data: { ...column }
+  })
+
+  const dndKitStyle = {
+    touchAction: 'none',
+    transform: CSS.Translate.toString(transform),
+    transition
+  }
+
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (event) => {
@@ -32,17 +45,23 @@ const Column = ({ column }) => {
   return (
     <>
       {/*Box column*/}
-      <Box sx={{
-        maxWidth: '300px',
-        minWidth: '300px',
-        bgcolor: (theme) => theme.palette.mode === 'dark'
-          ? theme.applyStyles('dark', { backgroundColor: '#333643' })
-          : theme.applyStyles('light', { backgroundColor: '#ebecf0' }),
-        ml: 2,
-        borderRadius: '6px',
-        height: 'fit-content',
-        maxHeight: (theme) => `calc(${theme.trello.boardContentHeight} - ${theme.spacing(5)})`
-      }}>
+      <Box
+        ref={setNodeRef}
+        style={dndKitStyle}
+        { ...attributes }
+        { ...listeners }
+        sx={{
+          maxWidth: '300px',
+          minWidth: '300px',
+          bgcolor: (theme) => theme.palette.mode === 'dark'
+            ? theme.applyStyles('dark', { backgroundColor: '#333643' })
+            : theme.applyStyles('light', { backgroundColor: '#ebecf0' }),
+          ml: 2,
+          borderRadius: '6px',
+          height: 'fit-content',
+          maxHeight: (theme) => `calc(${theme.trello.boardContentHeight} - ${theme.spacing(5)})`
+        }}
+      >
         {/*Box column header*/}
         <Box
           sx={{
