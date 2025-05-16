@@ -21,15 +21,17 @@ import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 const Column = ({ column }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
   })
 
-  const dndKitStyle = {
+  const dndKitColumnStyle = {
     touchAction: 'none',
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    height: '100%'
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -41,14 +43,11 @@ const Column = ({ column }) => {
     setAnchorEl(null)
   }
 
-  const orderedColumns = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
   return (
-    <>
+    <div ref={setNodeRef} style={dndKitColumnStyle} {...attributes} >
       {/*Box column*/}
       <Box
-        ref={setNodeRef}
-        style={dndKitStyle}
-        { ...attributes }
         { ...listeners }
         sx={{
           maxWidth: '300px',
@@ -135,7 +134,7 @@ const Column = ({ column }) => {
           </Box >
         </Box>
         {/*Box list card*/}
-        <ListCards cards={orderedColumns}/>
+        <ListCards cards={orderedCards}/>
         {/*Box column footer*/}
         <Box
           sx={{
@@ -152,7 +151,7 @@ const Column = ({ column }) => {
           </Tooltip>
         </Box>
       </Box>
-    </>
+    </div>
   )
 }
 
