@@ -39,6 +39,7 @@ export default [
         }
       ],
       //Common
+      'no-extra-boolean-cast': 0,
       'no-console': 1,
       'no-lonely-if': 1,
       'no-trailing-spaces': 1,
