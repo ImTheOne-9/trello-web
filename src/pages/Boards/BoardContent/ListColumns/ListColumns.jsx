@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import theme from '~/theme'
+import { toast } from 'react-toastify'
 const ListColumns = ({ columns }) => {
   const [openNewColumn, setOpenNewColumn] = useState(false)
   const toggleSetOpenNewColumn = () => setOpenNewColumn(!openNewColumn)
@@ -14,7 +15,10 @@ const ListColumns = ({ columns }) => {
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const addNewColumnTitle = () => {
     if (!newColumnTitle) {
-      console.log('Please enter column title')
+      toast.dismiss()
+      toast.error('Please enter a title for the new column', {
+        position: 'bottom-left'
+      })
       return
     }
     toggleSetOpenNewColumn()

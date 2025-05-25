@@ -21,6 +21,7 @@ import { mapOrder } from '~/utils/sorts'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import theme from '~/theme'
+import { toast } from 'react-toastify'
 const Column = ({ column }) => {
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleSetOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
@@ -28,7 +29,8 @@ const Column = ({ column }) => {
   const [newCardTitle, setNewCardTitle] = useState('')
   const addNewCard = () => {
     if (!newCardTitle) {
-      console.log('Please enter card')
+      toast.dismiss()
+      toast.error('Please enter a title for the new card')
       return
     }
     toggleSetOpenNewCardForm()
