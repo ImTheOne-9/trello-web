@@ -15,7 +15,7 @@ import {
   getFirstCollision,
   closestCenter
 } from '@dnd-kit/core'
-import { MouseSensor, TouchSensor } from '~/customLibraries/dndKitSensor'
+import { MouseSensor, TouchSensor } from '~/customLibraries/DndKitSensor'
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import { cloneDeep, isEmpty} from 'lodash'
@@ -23,7 +23,7 @@ import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import {generatePlaceHolderCard} from '~/utils/formatters'
 
-const BoardContent = ({ board }) => {
+const BoardContent = ({ board, createNewColumn, createNewCard }) => {
   const ACTIVE_DRAG_ITEM_TYPE = {
     CARD: 'card',
     COLUMN: 'column'
@@ -289,7 +289,10 @@ const BoardContent = ({ board }) => {
             : theme.applyStyles('light', { backgroundColor: '#1976d2' }),
           p: '3px 0'
         }}>
-          <ListColumns columns={orderedColumns}/>
+          <ListColumns
+            columns={orderedColumns}
+            createNewColumn={createNewColumn}
+            createNewCard={createNewCard}/>
           <DragOverlay dropAnimation={dropAnimation}>
             {!activeDragItemType && null}
             {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData}/>}

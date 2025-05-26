@@ -22,17 +22,23 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import theme from '~/theme'
 import { toast } from 'react-toastify'
-const Column = ({ column }) => {
+const Column = ({ column, createNewCard }) => {
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleSetOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+  const addNewCard = async() => {
     if (!newCardTitle) {
       toast.dismiss()
       toast.error('Please enter a title for the new card')
       return
     }
+
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+    }
+    await createNewCard(newCardData)
     toggleSetOpenNewCardForm()
     setNewCardTitle('')
   }
