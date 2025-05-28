@@ -34,68 +34,55 @@ const AppBar = () => {
   }
   return (
     <>
-      <Box px={2} sx={{
-        width: '100%',
-        height: (theme) => theme.trello.appBarHeight,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 2,
-        bgcolor: (theme) => theme.palette.mode === 'dark'
-          ? theme.applyStyles('dark', { backgroundColor: '#2c3e50' })
-          : theme.applyStyles('light', { backgroundColor: '#1565c0' })
-      }}>
+      <Box
+        px={2}
+        sx={{
+          width: '100%',
+          height: (theme) => theme.trello.appBarHeight,
+          display: 'flex',
+          alignItems: 'center',
+          gap: 2,
+          bgcolor: (theme) => theme.palette.mode === 'dark'
+            ? theme.applyStyles('dark', { backgroundColor: '#2c3e50' })
+            : theme.applyStyles('light', { backgroundColor: '#1565c0' })
+        }}
+      >
+        {/* Left: Logo và menu */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          {isMobile ?
+          {isMobile ? (
             <IconButton onClick={() => handleDrawerOpen(true)}>
               <MenuIcon sx={{ color: 'white' }} />
             </IconButton>
-            :
+          ) : (
             <AppsIcon sx={{ color: 'white' }} />
-          }
+          )}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <SvgIcon component={TrelloIcon} fontSize='small' inheritViewBox sx={{ color: 'white' }} />
-            <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>Trello</Typography>
+            <SvgIcon component={TrelloIcon} fontSize="small" inheritViewBox sx={{ color: 'white' }} />
+            <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
+              Trello
+            </Typography>
           </Box>
-          {!isMobile &&
-            <>
-              <Workspace />
-              <Recent />
-              <Starred />
-              <Template />
-              <Button
-                sx={{
-                  color: 'white'
-                }}
-                startIcon={<LibraryAddIcon />}
-              >
-                Create
-              </Button>
-            </>
-          }
         </Box>
 
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }} >
+        {/* Center: Search */}
+        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', gap: 1}}>
           <TextField
             id="outlined-search"
             label="Search..."
             type="text"
-            size='small'
+            size="small"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon
-                    fontSize='small'
-                    sx={{ color: 'white' }}
-                  />
+                  <SearchIcon fontSize="small" sx={{ color: 'white' }} />
                 </InputAdornment>
               ),
               endAdornment: (
                 <InputAdornment position="end">
                   <CloseIcon
-                    fontSize='small'
+                    fontSize="small"
                     sx={{
                       color: search ? 'white' : 'transparent',
                       cursor: 'pointer'
@@ -106,8 +93,8 @@ const AppBar = () => {
               )
             }}
             sx={{
-              minWidth: '120px',
-              maxWidth: '170px',
+              width: '100%',
+              maxWidth: '500px',
               '& label': { color: 'white' },
               '& input': { color: 'white' },
               '& label.Mui-focused': { color: 'white' },
@@ -118,20 +105,33 @@ const AppBar = () => {
               }
             }}
           />
+          <Button
+            variant="outlined"
+            sx={{
+              color: 'white',
+              borderColor: 'white',
+              '&:hover': {
+                borderColor: 'white'
+              }
+            }}> Create
+          </Button>
+        </Box>
 
+        {/* Right: Icon và profile */}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <ModeSelect />
           <Tooltip title="Notification">
             <Badge variant="dot" color="warning">
               <NotificationsNoneIcon sx={{ color: 'white', cursor: 'pointer' }} />
             </Badge>
           </Tooltip>
-
           <Tooltip title="Help">
             <HelpOutlineIcon sx={{ color: 'white', cursor: 'pointer' }} />
           </Tooltip>
           <Profile />
         </Box>
       </Box>
+
       <Drawer anchor='left' open={open} onClose={() => handleDrawerOpen(false)}>
         <Box sx={{ width: 250, p: 2 }} >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>

@@ -11,7 +11,7 @@ const handler = ({ nativeEvent: event }) => {
     cur = cur.parentElement
   }
 
-  return true;
+  return true
 };
 
 export class MouseSensor extends DndKitMouseSensor {
