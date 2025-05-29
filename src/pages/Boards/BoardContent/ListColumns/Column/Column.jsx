@@ -23,23 +23,43 @@ import { CSS } from '@dnd-kit/utilities'
 import theme from '~/theme'
 import { toast } from 'react-toastify'
 import { useConfirm } from 'material-ui-confirm'
-const Column = ({ column, createNewCard, deleteColumnDetails }) => {
+import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { cloneDeep } from 'lodash'
+import { createNewCardAPIs, deleteColumnDetailsAPI } from '~/apis'
+const Column = ({ column }) => {
+  const dispatch = useDispatch()
+  const board = useSelector(selectCurrentActiveBoard)
+
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleSetOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.dismiss()
       toast.error('Please enter a title for the new card')
       return
     }
 
-    const newCardData = {
+    const createdCard = await createNewCardAPIs({
       title: newCardTitle,
-      columnId: column._id
+      columnId: column._id,
+      boardId: board._id
+    })
+
+    const cloneBoard = cloneDeep(board)
+    const columnToUpdate = cloneBoard.columns.find(column => column._id === createdCard.columnId)
+    if (columnToUpdate) {
+      if (columnToUpdate.cards.some(c => c.FE_PlaceHolder)) {
+        columnToUpdate.cards = [createdCard],
+        columnToUpdate.cardOrderIds = [createdCard._id]
+      } else {
+        columnToUpdate.cards.push(createdCard)
+        columnToUpdate.cardOrderIds.push(createdCard._id)
+      }
     }
-    createNewCard(newCardData)
+    dispatch(updateCurrentActiveBoard(cloneBoard))
 
     toggleSetOpenNewCardForm()
     setNewCardTitle('')
@@ -47,7 +67,7 @@ const Column = ({ column, createNewCard, deleteColumnDetails }) => {
 
   const confirmDeleteColumn = useConfirm()
   const handleRemoveColumn = async () => {
-    const { confirmed, reason } = await confirmDeleteColumn({
+    const { confirmed } = await confirmDeleteColumn({
       description: 'This action will permanently delete your Column and its Cards! Are you sure?',
       title: 'Delete Column',
       confirmationText: 'Confirm',
@@ -55,7 +75,16 @@ const Column = ({ column, createNewCard, deleteColumnDetails }) => {
     })
 
     if (confirmed) {
-      deleteColumnDetails(column._id)
+      // Call Api create column and Update board state
+      const cloneBoard = cloneDeep(board)
+
+      cloneBoard.columns = cloneBoard.columns.filter(c => c._id !== column._id)
+      cloneBoard.columnOrderIds = cloneBoard.columnOrderIds.filter(_id => _id !== column._id)
+
+      dispatch(updateCurrentActiveBoard(cloneBoard))
+      deleteColumnDetailsAPI(column._id).then(res => {
+        toast.success(res?.deleteResult)
+      })
     }
   }
 

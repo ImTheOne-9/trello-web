@@ -6,22 +6,27 @@ import App from '~/App.jsx'
 import theme from '~/theme'
 import { ToastContainer } from 'react-toastify'
 import { ConfirmProvider } from 'material-ui-confirm'
+// Config Redux Store
+import { store } from '~/redux/store'
+import { Provider } from 'react-redux'
 createRoot(document.getElementById('root')).render(
-  <ThemeProvider theme={theme}>
-    <ConfirmProvider defaultOptions={{
-      allowClose: false,
-      dialogProps: {maxWidth: 'xs' },
-      cancellationButtonProps: {color: 'inherit', variant: 'outlined' },
-      confirmationButtonProps: {color: 'warning', variant: 'contained' }
-    }}>
-      <CssBaseline />
-      <App />
-      <ToastContainer
-        position="bottom-right"
-        theme="colored"
-        pauseOnHover
-        closeOnClick={false}
-      />
-    </ConfirmProvider>
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <ConfirmProvider defaultOptions={{
+        allowClose: false,
+        dialogProps: { maxWidth: 'xs' },
+        cancellationButtonProps: { color: 'inherit', variant: 'outlined' },
+        confirmationButtonProps: { color: 'warning', variant: 'contained' }
+      }}>
+        <CssBaseline />
+        <App />
+        <ToastContainer
+          position="bottom-right"
+          theme="colored"
+          pauseOnHover
+          closeOnClick={false}
+        />
+      </ConfirmProvider>
+    </ThemeProvider>
+  </Provider>
 )

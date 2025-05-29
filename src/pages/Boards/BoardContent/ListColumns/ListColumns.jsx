@@ -8,12 +8,20 @@ import { TextField } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import theme from '~/theme'
 import { toast } from 'react-toastify'
-const ListColumns = ({ columns, createNewColumn, createNewCard, deleteColumnDetails }) => {
+import { cloneDeep } from 'lodash'
+import { createNewColumnAPIs } from '~/apis'
+import { generatePlaceHolderCard } from '~/utils/formatters'
+import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useDispatch, useSelector } from 'react-redux'
+const ListColumns = ({ columns }) => {
+  const dispatch = useDispatch()
+  const board = useSelector(selectCurrentActiveBoard)
+
   const [openNewColumn, setOpenNewColumn] = useState(false)
   const toggleSetOpenNewColumn = () => setOpenNewColumn(!openNewColumn)
 
   const [newColumnTitle, setNewColumnTitle] = useState('')
-  const addNewColumnTitle = () => {
+  const addNewColumnTitle = async() => {
     if (!newColumnTitle) {
       toast.dismiss()
       toast.error('Please enter a title for the new column', {
@@ -21,10 +29,23 @@ const ListColumns = ({ columns, createNewColumn, createNewCard, deleteColumnDeta
       })
       return
     }
-    const newColumnData = {
-      title: newColumnTitle
-    }
-    createNewColumn(newColumnData)
+
+    // Call Api create column and Update board state
+    const createdColumn = await createNewColumnAPIs({
+      title: newColumnTitle,
+      boardId: board._id
+    })
+
+    createdColumn.cards = [generatePlaceHolderCard(createdColumn)]
+    createdColumn.cardOrderIds = [generatePlaceHolderCard(createdColumn)._id]
+
+    const cloneBoard = cloneDeep(board)
+    cloneBoard.columns.push(createdColumn)
+    cloneBoard.columnOrderIds.push(createdColumn._id)
+
+    // Update data to redux store
+    dispatch(updateCurrentActiveBoard(cloneBoard))
+
     toggleSetOpenNewColumn()
     setNewColumnTitle('')
   }
@@ -40,12 +61,7 @@ const ListColumns = ({ columns, createNewColumn, createNewCard, deleteColumnDeta
           overflowY: 'hidden'
         }}>
           {columns?.map(column =>
-            <Column
-              key={column._id}
-              column={column}
-              createNewCard={createNewCard}
-              deleteColumnDetails={deleteColumnDetails}
-            />)}
+            <Column key={column._id} column={column}/>)}
           {!openNewColumn ?
             <Box
               onClick= {toggleSetOpenNewColumn}

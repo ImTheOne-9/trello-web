@@ -12,6 +12,8 @@ import { Tooltip } from '@mui/material'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatters'
+import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useDispatch, useSelector } from 'react-redux'
 const MENU_STYLES = {
   color: 'white',
   bgcolor: 'transparent',
@@ -24,7 +26,9 @@ const MENU_STYLES = {
     bgcolor: 'primary.50'
   }
 }
-const BoardBar = ({ board }) => {
+
+const BoardBar = () => {
+  const board = useSelector(selectCurrentActiveBoard)
   return (
     <>
       <Box px={2} sx={{
