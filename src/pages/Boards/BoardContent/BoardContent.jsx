@@ -22,8 +22,15 @@ import { cloneDeep, isEmpty } from 'lodash'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import { generatePlaceHolderCard } from '~/utils/formatters'
+import { moveCardInDifferentColumnAPIs, updateBoardDetailsAPI, updateColumnDetailsAPI} from '~/apis'
 
-const BoardContent = ({ board, createNewColumn, createNewCard, moveColumns, moveCardInSameColumn, moveCardInDifferentColumn, deleteColumnDetails }) => {
+import { updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
+import { useDispatch, useSelector } from 'react-redux'
+
+
+const BoardContent = () => {
+  const dispatch = useDispatch()
+  const board = useSelector(selectCurrentActiveBoard)
   const ACTIVE_DRAG_ITEM_TYPE = {
     CARD: 'card',
     COLUMN: 'column'
@@ -173,7 +180,26 @@ const BoardContent = ({ board, createNewColumn, createNewCard, moveColumns, move
       // Chi goi API khi ham duoc goi tu handleDragEnd
       if (triggerFrom === 'handleDragEnd') {
         // Goi Api Update
-        moveCardInDifferentColumn(activeDraggingCardId, oldColumnWhenDraggingCard._id, nextOverColumn._id, nextColumns)
+        const cloneBoard = cloneDeep(board)
+        const dndOrderedColumnsIds = nextColumns.map(c => c._id)
+
+        cloneBoard.columns = nextColumns
+        cloneBoard.columnOrderIds = dndOrderedColumnsIds
+
+        dispatch(updateCurrentActiveBoard(cloneBoard))
+
+        let prevCardOrderIds = nextColumns.find(c => c._id === oldColumnWhenDraggingCard._id)?.cardOrderIds
+        //Xu li van de khi keo card cuoi cung ra khoi column
+        if (prevCardOrderIds[0].includes('-placeholder-card'))
+          prevCardOrderIds = []
+        // Goi Api
+        moveCardInDifferentColumnAPIs({
+          currentCardId: activeDraggingCardId,
+          prevColumnId: oldColumnWhenDraggingCard._id,
+          prevCardOrderIds,
+          nextColumnId: nextOverColumn._id,
+          nextCardOrderIds: nextColumns.find(c => c._id === nextOverColumn._id)?.cardOrderIds
+        })
       }
       return nextColumns
     })
@@ -270,7 +296,16 @@ const BoardContent = ({ board, createNewColumn, createNewCard, moveColumns, move
           })
 
           // Goi Api
-          moveCardInSameColumn(dndOrderedCards, dndOrderedCardsIds, activeColumn._id)
+          const cloneBoard = cloneDeep(board)
+          const columnToUpdate = cloneBoard.columns.find(column => column._id === activeColumn._id)
+          if (columnToUpdate) {
+            columnToUpdate.cards = dndOrderedCards
+            columnToUpdate.cardOrderIds = dndOrderedCardsIds
+          }
+          dispatch(updateCurrentActiveBoard(cloneBoard))
+
+          // Goi Api update
+          updateColumnDetailsAPI(activeColumn._id, { cardOrderIds: dndOrderedCardsIds })
         }
       }
     }
@@ -284,7 +319,18 @@ const BoardContent = ({ board, createNewColumn, createNewCard, moveColumns, move
         const dndOrderedColumns = arrayMove(orderedColumns, oldIndexColumn, newIndexColumn)
 
         setOrderedColumns(dndOrderedColumns)
-        moveColumns(dndOrderedColumns)
+
+        // Call Api create column and Update board state
+        const cloneBoard = cloneDeep(board)
+        const dndOrderedColumnsIds = dndOrderedColumns.map(c => c._id)
+
+        cloneBoard.columns = dndOrderedColumns
+        cloneBoard.columnOrderIds = dndOrderedColumnsIds
+
+        dispatch(updateCurrentActiveBoard(cloneBoard))
+
+        // Goi Api Update Board
+        updateBoardDetailsAPI(cloneBoard._id, { columnOrderIds: dndOrderedColumnsIds })
       }
     }
 
@@ -312,11 +358,7 @@ const BoardContent = ({ board, createNewColumn, createNewCard, moveColumns, move
             : theme.applyStyles('light', { backgroundColor: '#1976d2' }),
           p: '3px 0'
         }}>
-          <ListColumns
-            columns={orderedColumns}
-            createNewColumn={createNewColumn}
-            createNewCard={createNewCard}
-            deleteColumnDetails={deleteColumnDetails} />
+          <ListColumns columns={orderedColumns}/>
           <DragOverlay dropAnimation={dropAnimation}>
             {!activeDragItemType && null}
             {activeDragItemType === ACTIVE_DRAG_ITEM_TYPE.COLUMN && <Column column={activeDragItemData} />}

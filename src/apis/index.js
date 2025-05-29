@@ -1,10 +1,5 @@
 import axiosClient from './axiosClient'
 
-// GET
-export const fetchBoardDetailsAPI = async (boardId) => {
-  const response = await axiosClient.get(`/v1/boards/${boardId}`)
-  return response.data
-}
 
 // UPDATE
 export const updateBoardDetailsAPI = async (boardId, updateData) => {
