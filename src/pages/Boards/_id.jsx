@@ -11,16 +11,18 @@ import CircularProgress from '@mui/material/CircularProgress'
 import { toast } from 'react-toastify'
 import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router'
 const Board = () => {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
+  let { boardId } = useParams()
 
   useEffect(() => {
     //Tam thoi fix cung boardId, ve sau su dung react-router-dom de lay chuan boardId tu url
-    const boardId = '6832e8e3b532db8e6f00a54b'
+    // const boardId = '6832e8e3b532db8e6f00a54b'
     // call Api
     dispatch(fetchBoardDetailsAPI(boardId))
-  }, [dispatch])
+  }, [dispatch, boardId])
 
   if (!board) {
     return (
