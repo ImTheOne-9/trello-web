@@ -269,6 +269,7 @@ const Column = ({ column }) => {
               }}>
                 <Button
                   onClick={addNewCard}
+                  className='interceptor-loading'
                   variant='contained' color='success' size='small'
                   sx={{
                     boxShadow: 'none',

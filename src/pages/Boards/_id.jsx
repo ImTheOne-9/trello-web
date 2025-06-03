@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
+import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
 const Board = () => {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
@@ -25,18 +26,7 @@ const Board = () => {
   }, [dispatch, boardId])
 
   if (!board) {
-    return (
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        width: '100vw'
-      }}>
-        <CircularProgress />
-        <Typography>Loading...</Typography>
-      </Box>
-    )
+    return (<PageLoadingSpinner caption='Loading board ...'/>)
   }
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh', overflow: 'hidden' }}>
