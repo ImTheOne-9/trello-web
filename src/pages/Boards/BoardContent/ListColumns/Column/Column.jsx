@@ -26,7 +26,8 @@ import { useConfirm } from 'material-ui-confirm'
 import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { cloneDeep } from 'lodash'
-import { createNewCardAPIs, deleteColumnDetailsAPI } from '~/apis'
+import { createNewCardAPIs, deleteColumnDetailsAPI, updateColumnDetailsAPI } from '~/apis'
+import ToggleFocusInput from '~/components/Form/ToggleFocusInput'
 const Column = ({ column }) => {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
@@ -111,6 +112,17 @@ const Column = ({ column }) => {
   }
 
   const orderedCards = column.cards
+
+  const onUpdateColumnTitle = (newTitle) => {
+    updateColumnDetailsAPI(column._id, { title: newTitle }).then(() => {
+      const cloneBoard = cloneDeep(board)
+      const columnToUpdate = cloneBoard.columns.find(c => c._id === column._id)
+      if (columnToUpdate) {
+        columnToUpdate.title = newTitle
+      }
+      dispatch(updateCurrentActiveBoard(cloneBoard))
+    })
+  }
   return (
     <div ref={setNodeRef} style={dndKitColumnStyle} {...attributes} >
       {/*Box column*/}
@@ -138,7 +150,7 @@ const Column = ({ column }) => {
             alignItems: 'center'
           }}
         >
-          <Typography
+          {/* <Typography
             variant='h6'
             sx={{
               fontSize: '1rem',
@@ -146,7 +158,11 @@ const Column = ({ column }) => {
               fontWeight: 'bold'
             }}>
             {column.title}
-          </Typography>
+          </Typography> */}
+          <ToggleFocusInput
+            data-no-dnd='true'
+            value={column.title}
+            onChangedValue={onUpdateColumnTitle} />
           <Box
             sx={{
               pointerEvents: open ? 'none' : 'auto'
