@@ -6,6 +6,7 @@ import App from '~/App.jsx'
 import theme from '~/theme'
 import { ToastContainer } from 'react-toastify'
 import { ConfirmProvider } from 'material-ui-confirm'
+import { GlobalStyles } from '@mui/material'
 // Config Redux Store
 import { store } from '~/redux/store'
 import { Provider } from 'react-redux'
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')).render(
             cancellationButtonProps: { color: 'inherit', variant: 'outlined' },
             confirmationButtonProps: { color: 'warning', variant: 'contained' }
           }}>
+            <GlobalStyles styles={{ a: { textDecoration: 'none' } }}/>
             <CssBaseline />
             <App />
             <ToastContainer
