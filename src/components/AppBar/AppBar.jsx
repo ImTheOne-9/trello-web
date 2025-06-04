@@ -24,6 +24,7 @@ import Recent from './Menu/Recent'
 import Starred from './Menu/Starred'
 import Template from './Menu/Template'
 import Workspace from './Menu/Workspace'
+import { Link } from 'react-router-dom'
 const AppBar = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -56,12 +57,14 @@ const AppBar = () => {
           ) : (
             <AppsIcon sx={{ color: 'white' }} />
           )}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <SvgIcon component={TrelloIcon} fontSize="small" inheritViewBox sx={{ color: 'white' }} />
-            <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
-              Trello
-            </Typography>
-          </Box>
+          <Link to={'/'}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <SvgIcon component={TrelloIcon} fontSize="small" inheritViewBox sx={{ color: 'white' }} />
+              <Typography sx={{ fontSize: '1.2rem', fontWeight: 'bold', color: 'white' }}>
+                Trello
+              </Typography>
+            </Box>
+          </Link>
         </Box>
 
         {/* Center: Search */}
