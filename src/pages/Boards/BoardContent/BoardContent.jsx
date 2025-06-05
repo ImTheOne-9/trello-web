@@ -57,7 +57,7 @@ const BoardContent = () => {
 
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
-      distance: 5
+      distance: 10
     }
   })
   const touchSensor = useSensor(TouchSensor, {

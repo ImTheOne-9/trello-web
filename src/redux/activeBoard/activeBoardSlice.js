@@ -19,6 +19,7 @@ export const fetchBoardDetailsAPI = createAsyncThunk(
   }
 )
 
+
 // Defines Slice in Redux Store
 export const activeBoardSlice = createSlice({
   name: 'activeBoard',
@@ -33,6 +34,20 @@ export const activeBoardSlice = createSlice({
 
       // Update currentActiveBoard data
       state.currentActiveBoard = board
+    },
+
+    updateCardInBoard: (state, action) => {
+      const inComingCard = action.payload
+      // Tim dan tu board => column => card
+      const column = state.currentActiveBoard.columns.find(i => i._id === inComingCard.columnId)
+      if (column) {
+        const card = column.cards.find(i => i._id === inComingCard._id)
+        if (card) {
+          Object.keys(inComingCard).forEach(key => {
+            card[key] = inComingCard[key]
+          })
+        }
+      }
     }
   },
 
@@ -41,6 +56,9 @@ export const activeBoardSlice = createSlice({
     builder.addCase(fetchBoardDetailsAPI.fulfilled, (state, action) => {
       // action.payload = response.data
       let board = action.payload
+
+      // Thanh vien trong board se la gop lai cua 2 mang owners va members
+      board.FE_allUsers = board.owners.concat(board.members)
 
       // handle Data
       board.columns = mapOrder(board.columns, board.columnOrderIds, '_id')
@@ -60,7 +78,7 @@ export const activeBoardSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions
+export const { updateCurrentActiveBoard, updateCardInBoard } = activeBoardSlice.actions
 
 // Selector to get data from the Redux store
 export const selectCurrentActiveBoard = (state) => {

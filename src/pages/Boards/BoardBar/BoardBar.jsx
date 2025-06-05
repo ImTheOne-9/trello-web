@@ -14,6 +14,7 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { capitalizeFirstLetter } from '~/utils/formatters'
 import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoard } from '~/redux/activeBoard/activeBoardSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import BoardUserGroup from './BoardUserGroup'
 const MENU_STYLES = {
   color: 'white',
   bgcolor: 'transparent',
@@ -88,36 +89,7 @@ const BoardBar = () => {
           >
             Invite
           </Button>
-          <AvatarGroup
-            max={3}
-            sx={{
-              gap: '10px',
-              '& .MuiAvatar-root': {
-                width: 34,
-                height: 34,
-                fontSize: 16,
-                border: 'none',
-                color: 'white',
-                cursor: 'pointer',
-                '&:first-of-type': { bgcolor: '#a4b0be' }
-              }
-            }}>
-            <Tooltip title='avatar'>
-              <Avatar alt="c" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGoz4yAOvONcl0w8zez5qIU-zOPcEbqsxjhw&s" />
-            </Tooltip>
-            <Tooltip title='avatar'>
-              <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
-            </Tooltip>
-            <Tooltip title='avatar'>
-              <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
-            </Tooltip>
-            <Tooltip title='avatar'>
-              <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
-            </Tooltip>
-            <Tooltip title='avatar'>
-              <Avatar alt="avatar" src="/static/images/avatar/1.jpg" />
-            </Tooltip>
-          </AvatarGroup>
+          <BoardUserGroup boardUsers={board?.FE_allUsers}/>
         </Box>
       </Box>
     </>

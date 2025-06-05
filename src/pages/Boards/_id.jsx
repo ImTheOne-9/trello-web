@@ -13,9 +13,12 @@ import { fetchBoardDetailsAPI, updateCurrentActiveBoard, selectCurrentActiveBoar
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import PageLoadingSpinner from '~/components/Loading/PageLoadingSpinner'
+import ActiveCard from '~/components/Modal/ActiveCard/ActiveCard'
+import { selectCurrentActiveCard } from '~/redux/activeCard/activeCardSlice'
 const Board = () => {
   const dispatch = useDispatch()
   const board = useSelector(selectCurrentActiveBoard)
+  const activeCard = useSelector(selectCurrentActiveCard)
   let { boardId } = useParams()
 
   useEffect(() => {
@@ -30,6 +33,10 @@ const Board = () => {
   }
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh', overflow: 'hidden' }}>
+      {/**Check dong mo dua  theo dieu kien co data activeCard luu trong Redux ko
+       * Moi thoi diem chi ton tai 1 activeCard
+      */}
+      {activeCard && <ActiveCard/>}
       <AppBar />
       <BoardBar/>
       <BoardContent/>
