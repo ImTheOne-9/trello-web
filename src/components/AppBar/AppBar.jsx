@@ -25,6 +25,7 @@ import Starred from './Menu/Starred'
 import Template from './Menu/Template'
 import Workspace from './Menu/Workspace'
 import { Link } from 'react-router-dom'
+import Notifications from './Notifications/Notifications'
 const AppBar = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -127,11 +128,7 @@ const AppBar = () => {
         {/* Right: Icon và profile */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <ModeSelect />
-          <Tooltip title="Notification">
-            <Badge variant="dot" color="warning">
-              <NotificationsNoneIcon sx={{ color: 'white', cursor: 'pointer' }} />
-            </Badge>
-          </Tooltip>
+          <Notifications/>
           <Tooltip title="Help">
             <HelpOutlineIcon sx={{ color: 'white', cursor: 'pointer' }} />
           </Tooltip>
