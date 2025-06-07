@@ -7,7 +7,8 @@ import authorizeAxiosInstance from '~/utils/authorizeAxios'
 
 // Defines the default state of This Slice
 const initialState = {
-  currentActiveCard: null
+  currentActiveCard: null,
+  isShowModalActiveCard: false
 }
 
 
@@ -18,8 +19,13 @@ export const activeCardSlice = createSlice({
 
   // reducer handle sync logic:
   reducers: {
-    clearCurrentActiveCard: (state) => {
-      state.currentActiveCard = null
+    showModalActiveCard: (state) => {
+      state.isShowModalActiveCard = true
+    },
+
+    clearAndHideCurrentActiveCard: (state) => {
+      state.currentActiveCard = null,
+      state.isShowModalActiveCard = false
     },
 
     updateCurrentActiveCard: (state, action) => {
@@ -38,11 +44,15 @@ export const activeCardSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { clearCurrentActiveCard, updateCurrentActiveCard } = activeCardSlice.actions
+export const { showModalActiveCard, clearAndHideCurrentActiveCard, updateCurrentActiveCard } = activeCardSlice.actions
 
 // Selector to get data from the Redux store
 export const selectCurrentActiveCard = (state) => {
   return state.activeCard.currentActiveCard
+}
+
+export const selectIsShowModalActiveCard = (state) => {
+  return state.activeCard.isShowModalActiveCard
 }
 
 // export reducer
