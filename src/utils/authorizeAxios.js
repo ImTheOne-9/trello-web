@@ -53,7 +53,7 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
 
   // Th1: 410
   const originalRequest = error.config
-  console.log(originalRequest)
+  // console.log(originalRequest)
   if (error.response?.status === 410) {
     // // Gan them _retry = true trong thoi gian cho, dam bao refresh token chi luon goi 1 lan tai 1 thoi diem 
     // originalRequest._retry = true
@@ -61,7 +61,7 @@ authorizeAxiosInstance.interceptors.response.use((response) => {
       refreshTokenPromise = refreshTokenAPI()
         .then(res => {
           return res?.accessToken
-        }) 
+        })
         .catch(( _error ) => {
           // Neu refresh token bi loi, thi se logout
           axiosReduxStore.dispatch(logoutUserAPI(false))

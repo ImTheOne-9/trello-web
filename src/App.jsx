@@ -8,7 +8,7 @@ import { selectCurrentUser } from '~/redux/user/userSlice'
 import Settings from '~/pages/Settings/Settings'
 import Boards from './pages/Boards'
 const ProtectedRoute = ({ user }) => {
-  console.log(user)
+  // console.log(user)
   if (!user) {
     return <Navigate to='/login' replace={true} />
   }

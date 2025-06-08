@@ -355,7 +355,7 @@ const BoardContent = () => {
           height: (theme) => theme.trello.boardContentHeight,
           bgcolor: (theme) => theme.palette.mode === 'dark'
             ? theme.applyStyles('dark', { backgroundColor: '#34495e' })
-            : theme.applyStyles('light', { backgroundColor: '#1976d2' }),
+            : theme.applyStyles('light', { backgroundColor: 'hsl(202, 100%, 37%)' }),
           p: '3px 0'
         }}>
           <ListColumns columns={orderedColumns}/>

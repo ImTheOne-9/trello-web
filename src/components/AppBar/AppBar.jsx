@@ -1,19 +1,12 @@
 import AppsIcon from '@mui/icons-material/Apps'
-import CloseIcon from '@mui/icons-material/Close'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import LibraryAddIcon from '@mui/icons-material/LibraryAdd'
 import MenuIcon from '@mui/icons-material/Menu'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
-import SearchIcon from '@mui/icons-material/Search'
 import { IconButton, useMediaQuery } from '@mui/material'
-import Badge from '@mui/material/Badge'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
-import InputAdornment from '@mui/material/InputAdornment'
 import { useTheme } from '@mui/material/styles'
 import SvgIcon from '@mui/material/SvgIcon'
-import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import React from 'react'
@@ -26,6 +19,7 @@ import Template from './Menu/Template'
 import Workspace from './Menu/Workspace'
 import { Link } from 'react-router-dom'
 import Notifications from './Notifications/Notifications'
+import AutoCompleteSearchBoard from './SearchBoards/AutoCompleteSearchBoard'
 const AppBar = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -43,10 +37,11 @@ const AppBar = () => {
           height: (theme) => theme.trello.appBarHeight,
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
           gap: 2,
           bgcolor: (theme) => theme.palette.mode === 'dark'
             ? theme.applyStyles('dark', { backgroundColor: '#2c3e50' })
-            : theme.applyStyles('light', { backgroundColor: '#1565c0' })
+            : theme.applyStyles('light', { backgroundColor: 'hsl(202,100%,25%)' })
         }}
       >
         {/* Left: Logo và menu */}
@@ -73,57 +68,7 @@ const AppBar = () => {
         </Box>
 
         {/* Center: Search */}
-        <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', gap: 1}}>
-          <TextField
-            id="outlined-search"
-            label="Search..."
-            type="text"
-            size="small"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: 'white' }} />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <CloseIcon
-                    fontSize="small"
-                    sx={{
-                      color: search ? 'white' : 'transparent',
-                      cursor: 'pointer'
-                    }}
-                    onClick={() => setSearch('')}
-                  />
-                </InputAdornment>
-              )
-            }}
-            sx={{
-              width: '100%',
-              maxWidth: '500px',
-              '& label': { color: 'white' },
-              '& input': { color: 'white' },
-              '& label.Mui-focused': { color: 'white' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderColor: 'white' },
-                '&:hover fieldset': { borderColor: 'white' },
-                '&.Mui-focused fieldset': { borderColor: 'white' }
-              }
-            }}
-          />
-          <Button
-            variant="outlined"
-            sx={{
-              color: 'white',
-              borderColor: 'white',
-              '&:hover': {
-                borderColor: 'white'
-              }
-            }}> Create
-          </Button>
-        </Box>
+        <AutoCompleteSearchBoard/>
 
         {/* Right: Icon và profile */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
